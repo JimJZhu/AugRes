@@ -81,7 +81,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
         shapeManager = MarkerManager(scene: scnScene, view: scnView)
         tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         tapRecognizer!.numberOfTapsRequired = 1
-        tapRecognizer!.isEnabled = true
+        tapRecognizer!.isEnabled = false
         scnView.addGestureRecognizer(tapRecognizer!)
         
         //IMPORTANT: need to run this line to subscribe to pose and status events
@@ -174,7 +174,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
                 statusLabel.text = "Map Found!"
             }
             addMarkerButton?.isEnabled = true
-            
+            tapRecognizer?.isEnabled = true
+
             //As you are localized, the camera has been moved to match that of Placenote's Map. Transform the planes
             //currently being drawn from the arkit frame of reference to the Placenote map's frame of reference.
             for (_, node) in planesVizNodes {
@@ -188,7 +189,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
                 statusLabel.text = "Moved too fast. Map Lost"
             }
             addMarkerButton?.isEnabled = false
-            
+            tapRecognizer?.isEnabled = false
+
         }
         
     }
@@ -214,6 +216,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
         self.mapTable.isHidden = false
         self.toggleSliderUI(false, reset: false)
         self.addMarkerButton?.isEnabled = false
+        tapRecognizer?.isEnabled = false
     }
     
     // MARK: - UI functions
@@ -247,6 +250,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
             newMapButton.setTitle("Save Map", for: .normal)
             statusLabel.text = "Mapping: Tap to add shapes!"
             addMarkerButton?.isEnabled = true
+            tapRecognizer?.isEnabled = true
             mapTable.isHidden = true
             toggleSliderUI(true, reset: false)
             toggleMappingUI(false)
@@ -274,7 +278,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
                             metadata.location!.altitude = self.lastLocation!.altitude
                         }
                         var userdata: [String:Any] = [:]
-                        userdata["shapeArray"] = self.shapeManager.getMarkerArray()
+                        userdata["markerArray"] = self.shapeManager.getMarkerArray()
                         metadata.userdata = userdata
                         
                         if (!LibPlacenote.instance.setMapMetadata(mapId: mapId!, metadata: metadata)) {
@@ -301,12 +305,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
             )
             newMapButton.setTitle("New Map", for: .normal)
             addMarkerButton?.isEnabled = false
+            tapRecognizer?.isEnabled = false
             toggleMappingUI(true) //hide mapping UI
         }
     }
     
     @IBAction func pickMap(_ sender: Any) {
-        
+        print("pick")
         if (localizationStarted) { // currently a map is loaded. StopSession and clearView
             shapeManager.clearMarkers()
             ptViz?.reset()
@@ -408,6 +413,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
         planeDetSelection.isHidden = on
         showPNLabel.isHidden = on
         showPNSelection.isHidden = on
+        addMarkerButton.isHidden = on
     }
     
     // MARK: - UITableViewDelegate and UITableviewDataSource to manage retrieving, viewing, deleting and selecting maps on a TableView
@@ -470,7 +476,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
                                             self.toggleMappingUI(false) //show mapping options UI
                                             self.toggleSliderUI(true, reset: true) //hide + reset UI for later
                                             let userdata = self.maps[indexPath.row].1.userdata as? [String:Any]
-                                            if (self.shapeManager.loadMarkerArray(markerArray: userdata?["shapeArray"] as? [[String: [String: String]]])) {
+                                            if (self.shapeManager.loadMarkerArray(markerArray: userdata?["markerArray"] as? [[String: [String: String]]])) {
                                                 self.statusLabel.text = "Map Loaded. Look Around"
                                             } else {
                                                 self.statusLabel.text = "Map Loaded. Shape file not found"
@@ -496,6 +502,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
                                             }
                                             
                                             self.addMarkerButton?.isEnabled = true
+                                                self.tapRecognizer?.isEnabled = true
                                         } else if (faulted) {
                                             print ("Couldnt load map: " + self.maps[indexPath.row].0)
                                             self.statusLabel.text = "Load error Map Id: " +  self.maps[indexPath.row].0
