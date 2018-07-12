@@ -44,36 +44,4 @@ class ARHelperFunctions {
             print("Flash failed. Material not found. Skipping.")
         }
     }
-    
-    static func addTextGeometry(forNode node: SCNNode, withText text: String, height: Float, width: Float, fill: UIColor, stroke: UIColor, alpha: Float, fontSize: Float){
-        // Configure the Title Label Node
-        let frame = SKShapeNode(rect: CGRect(x: 0, y: 0, width: width.cgFloat, height: height.cgFloat), cornerRadius: 2)
-        frame.fillColor = fill
-        frame.strokeColor = stroke
-        frame.lineWidth = 5
-        frame.alpha = alpha.cgFloat
-        let scene = SKScene(size: CGSize(width: width.cgFloat, height: height.cgFloat))
-        scene.backgroundColor = UIColor.clear
-        let label = SKLabelNode(text: text)
-        label.fontSize = fontSize.cgFloat
-        label.fontName = "Futura"
-        label.position = CGPoint(x:width.cgFloat/2, y: (height.cgFloat - fontSize.cgFloat)/2)
-        label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.numberOfLines = 0
-        label.preferredMaxLayoutWidth = width.cgFloat * 0.8
-        scene.addChild(frame)
-        scene.addChild(label)
-        
-        let plane = SCNPlane(width: CGFloat(width/ARHelperFunctions.resolutionFactor), height: CGFloat(height/ARHelperFunctions.resolutionFactor))
-        let (minBound, maxBound) = plane.boundingBox
-        let material = SCNMaterial()
-        material.isDoubleSided = true
-        material.diffuse.contents = scene
-        material.diffuse.contentsTransform = SCNMatrix4Translate(SCNMatrix4MakeScale(1, -1, 1), 0, 1, 0)
-        material.roughness.contents = UIColor.black
-        
-        plane.materials = [material]
-        node.geometry = plane
-        node.pivot = SCNMatrix4MakeTranslation((maxBound.x - minBound.x)/2, minBound.y, 0)
-    }
 }

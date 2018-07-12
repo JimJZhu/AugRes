@@ -15,7 +15,6 @@
 		3890DA2B20F79FEF002C1D4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3890DA2920F79FEF002C1D4C /* LaunchScreen.storyboard */; };
 		3890DA3420F7A500002C1D4C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA3320F7A500002C1D4C /* Constants.swift */; };
 		3890DA3820F7A899002C1D4C /* RandomName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA3520F7A899002C1D4C /* RandomName.swift */; };
-		3890DA3920F7A899002C1D4C /* MarkerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA3620F7A899002C1D4C /* MarkerType.swift */; };
 		3890DA3A20F7A899002C1D4C /* MarkerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA3720F7A899002C1D4C /* MarkerManager.swift */; };
 		3890DA3F20F7C691002C1D4C /* ARHelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA3E20F7C691002C1D4C /* ARHelperFunctions.swift */; };
 		3890DA4220F7C973002C1D4C /* ClickableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA4020F7C973002C1D4C /* ClickableNode.swift */; };
@@ -35,7 +34,6 @@
 		3890DA2C20F79FEF002C1D4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3890DA3320F7A500002C1D4C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3890DA3520F7A899002C1D4C /* RandomName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomName.swift; sourceTree = "<group>"; };
-		3890DA3620F7A899002C1D4C /* MarkerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerType.swift; sourceTree = "<group>"; };
 		3890DA3720F7A899002C1D4C /* MarkerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerManager.swift; sourceTree = "<group>"; };
 		3890DA3E20F7C691002C1D4C /* ARHelperFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARHelperFunctions.swift; sourceTree = "<group>"; };
 		3890DA4020F7C973002C1D4C /* ClickableNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClickableNode.swift; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 			children = (
 				3890DA4020F7C973002C1D4C /* ClickableNode.swift */,
 				3890DA4120F7C973002C1D4C /* Marker.swift */,
-				3890DA3620F7A899002C1D4C /* MarkerType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -265,7 +262,6 @@
 				3890DA2320F79FEE002C1D4C /* ViewController.swift in Sources */,
 				3890DA3F20F7C691002C1D4C /* ARHelperFunctions.swift in Sources */,
 				3890DA3820F7A899002C1D4C /* RandomName.swift in Sources */,
-				3890DA3920F7A899002C1D4C /* MarkerType.swift in Sources */,
 				3890DA3A20F7A899002C1D4C /* MarkerManager.swift in Sources */,
 				3890DA4520F7CEBF002C1D4C /* Extensions.swift in Sources */,
 				3890DA1F20F79FEE002C1D4C /* AppDelegate.swift in Sources */,

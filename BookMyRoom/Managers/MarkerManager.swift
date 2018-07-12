@@ -52,8 +52,8 @@ class MarkerManager {
   private var scnView: SCNView!
   
   private var markerPositions: [SCNVector3] = []
-  private var markerTypes: [ShapeType] = []
-  private var markerNodes: [SCNNode] = []
+  private var markerIDs: [String] = []
+  private var markerNodes: [Marker] = []
   
   public var markersDrawn: Bool! = false
 
@@ -67,7 +67,7 @@ class MarkerManager {
     var markerArray: [[String: [String: String]]] = []
     if (markerPositions.count > 0) {
       for i in 0...(markerPositions.count-1) {
-        markerArray.append(["shape": ["style": "\(markerTypes[i].rawValue)", "x": "\(markerPositions[i].x)",  "y": "\(markerPositions[i].y)",  "z": "\(markerPositions[i].z)" ]])
+        markerArray.append(["shape": ["id": "\(markerIDs[i])", "x": "\(markerPositions[i].x)",  "y": "\(markerPositions[i].y)",  "z": "\(markerPositions[i].z)" ]])
       }
     }
     return markerArray
@@ -81,18 +81,20 @@ class MarkerManager {
         print ("Shape Manager: No shapes for this map")
         return false
     }
-
+    
     for item in markerArray! {
-      let x_string: String = item["shape"]!["x"]!
-      let y_string: String = item["shape"]!["y"]!
-      let z_string: String = item["shape"]!["z"]!
-      let position: SCNVector3 = SCNVector3(x: Float(x_string)!, y: Float(y_string)!, z: Float(z_string)!)
-      let type: ShapeType = ShapeType(rawValue: Int(item["shape"]!["style"]!)!)!
-      markerPositions.append(position)
-      markerTypes.append(type)
-      markerNodes.append(createShape(position: position, type: type))
-
-      print ("Shape Manager: Retrieved " + String(describing: type) + " type at position" + String (describing: position))
+        let x_string: String = item["shape"]!["x"]!
+        let y_string: String = item["shape"]!["y"]!
+        let z_string: String = item["shape"]!["z"]!
+        let position: SCNVector3 = SCNVector3(x: Float(x_string)!, y: Float(y_string)!, z: Float(z_string)!)
+        let id: String = item["shape"]!["id"]!
+        let marker = Marker(id: id)
+        marker.position = position
+        markerPositions.append(position)
+        markerIDs.append(id)
+        markerNodes.append(marker)
+        
+        print ("Shape Manager: Retrieved " + String(describing: id) + " id at position" + String (describing: position))
     }
 
     print ("Shape Manager: retrieved " + String(markerPositions.count) + " shapes")
@@ -122,41 +124,19 @@ class MarkerManager {
     }
     markerNodes.removeAll()
     markerPositions.removeAll()
-    markerTypes.removeAll()
+    markerIDs.removeAll()
   }
   
-  
-  
-  func spawnRandomMarker(position: SCNVector3) {
+  func placeMarker (position: SCNVector3) {
     
-    let shapeType: ShapeType = ShapeType.random()
-    placeMarker(position: position, type: shapeType)
-  }
-  
-  func placeMarker (position: SCNVector3, type: ShapeType) {
-    
-    let geometryNode: SCNNode = createShape(position: position, type: type)
+    let geometryNode: Marker = Marker(id: "1")
+    geometryNode.position = position
     
     markerPositions.append(position)
-    markerTypes.append(type)
+    markerIDs.append(geometryNode.id)
     markerNodes.append(geometryNode)
     
     scnScene.rootNode.addChildNode(geometryNode)
     markersDrawn = true
   }
-  
-  func createShape (position: SCNVector3, type: ShapeType) -> SCNNode {
-    
-    let geometry:SCNGeometry = ShapeType.generateGeometry(s_type: type)
-    let color = generateRandomColor()
-    geometry.materials.first?.diffuse.contents = color
-    
-    let geometryNode = SCNNode(geometry: geometry)
-    geometryNode.position = position
-    geometryNode.scale = SCNVector3(x:0.1, y:0.1, z:0.1)
-    
-    return geometryNode
-  }
-  
-  
 }

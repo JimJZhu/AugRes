@@ -81,7 +81,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
         shapeManager = MarkerManager(scene: scnScene, view: scnView)
         tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         tapRecognizer!.numberOfTapsRequired = 1
-        tapRecognizer!.isEnabled = false
+        tapRecognizer!.isEnabled = true
         scnView.addGestureRecognizer(tapRecognizer!)
         
         //IMPORTANT: need to run this line to subscribe to pose and status events
@@ -173,7 +173,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
             else if localizationStarted {
                 statusLabel.text = "Map Found!"
             }
-            tapRecognizer?.isEnabled = true
+            addMarkerButton?.isEnabled = true
             
             //As you are localized, the camera has been moved to match that of Placenote's Map. Transform the planes
             //currently being drawn from the arkit frame of reference to the Placenote map's frame of reference.
@@ -187,7 +187,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
             if mappingStarted {
                 statusLabel.text = "Moved too fast. Map Lost"
             }
-            tapRecognizer?.isEnabled = false
+            addMarkerButton?.isEnabled = false
             
         }
         
@@ -213,7 +213,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
         self.mapTable.reloadData() //reads from maps array (see: tableView functions)
         self.mapTable.isHidden = false
         self.toggleSliderUI(false, reset: false)
-        self.tapRecognizer?.isEnabled = false
+        self.addMarkerButton?.isEnabled = false
     }
     
     // MARK: - UI functions
@@ -246,7 +246,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
             pickMapButton.setTitle("Load Map", for: .normal)
             newMapButton.setTitle("Save Map", for: .normal)
             statusLabel.text = "Mapping: Tap to add shapes!"
-            tapRecognizer?.isEnabled = true
+            addMarkerButton?.isEnabled = true
             mapTable.isHidden = true
             toggleSliderUI(true, reset: false)
             toggleMappingUI(false)
@@ -300,7 +300,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
             }
             )
             newMapButton.setTitle("New Map", for: .normal)
-            tapRecognizer?.isEnabled = false
+            addMarkerButton?.isEnabled = false
             toggleMappingUI(true) //hide mapping UI
         }
     }
@@ -340,7 +340,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
         let hitTestResults = scnView.hitTest(screenCenter, types: .featurePoint)
         if let result = hitTestResults.first {
             let pose = LibPlacenote.instance.processPose(pose: result.worldTransform)
-            shapeManager.spawnRandomMarker(position: pose.position())
+            shapeManager.placeMarker(position: pose.position())
             
         }
     }
@@ -495,7 +495,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
                                                 print ("Started Debug Report")
                                             }
                                             
-                                            self.tapRecognizer?.isEnabled = true
+                                            self.addMarkerButton?.isEnabled = true
                                         } else if (faulted) {
                                             print ("Couldnt load map: " + self.maps[indexPath.row].0)
                                             self.statusLabel.text = "Load error Map Id: " +  self.maps[indexPath.row].0
@@ -539,7 +539,18 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
     }
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
-
+        // Deselect from dragging
+        if sender.state == .ended {
+            let location: CGPoint = sender.location(in: scnView)
+            let hits = self.scnView.hitTest(location, options: nil)
+            if !hits.isEmpty{
+                if let tappedNode = hits.first?.node as? ClickableNode{
+                    tappedNode.click()
+                } else{
+                    return
+                }
+            }
+        }
     }
     
     
