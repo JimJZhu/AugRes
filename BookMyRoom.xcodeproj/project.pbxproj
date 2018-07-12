@@ -14,6 +14,13 @@
 		3890DA2820F79FEF002C1D4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3890DA2720F79FEF002C1D4C /* Assets.xcassets */; };
 		3890DA2B20F79FEF002C1D4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3890DA2920F79FEF002C1D4C /* LaunchScreen.storyboard */; };
 		3890DA3420F7A500002C1D4C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA3320F7A500002C1D4C /* Constants.swift */; };
+		3890DA3820F7A899002C1D4C /* RandomName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA3520F7A899002C1D4C /* RandomName.swift */; };
+		3890DA3920F7A899002C1D4C /* MarkerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA3620F7A899002C1D4C /* MarkerType.swift */; };
+		3890DA3A20F7A899002C1D4C /* MarkerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA3720F7A899002C1D4C /* MarkerManager.swift */; };
+		3890DA3F20F7C691002C1D4C /* ARHelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA3E20F7C691002C1D4C /* ARHelperFunctions.swift */; };
+		3890DA4220F7C973002C1D4C /* ClickableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA4020F7C973002C1D4C /* ClickableNode.swift */; };
+		3890DA4320F7C973002C1D4C /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA4120F7C973002C1D4C /* Marker.swift */; };
+		3890DA4520F7CEBF002C1D4C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA4420F7CEBF002C1D4C /* Extensions.swift */; };
 		E1CBD31537ED8391F234DB18 /* Pods_BookMyRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBFAF4442E57F7FEFD6356D5 /* Pods_BookMyRoom.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +34,13 @@
 		3890DA2A20F79FEF002C1D4C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3890DA2C20F79FEF002C1D4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3890DA3320F7A500002C1D4C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3890DA3520F7A899002C1D4C /* RandomName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomName.swift; sourceTree = "<group>"; };
+		3890DA3620F7A899002C1D4C /* MarkerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerType.swift; sourceTree = "<group>"; };
+		3890DA3720F7A899002C1D4C /* MarkerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerManager.swift; sourceTree = "<group>"; };
+		3890DA3E20F7C691002C1D4C /* ARHelperFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARHelperFunctions.swift; sourceTree = "<group>"; };
+		3890DA4020F7C973002C1D4C /* ClickableNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClickableNode.swift; sourceTree = "<group>"; };
+		3890DA4120F7C973002C1D4C /* Marker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
+		3890DA4420F7CEBF002C1D4C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4D59A91CFBD6F2EE200AA283 /* Pods-BookMyRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookMyRoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-BookMyRoom/Pods-BookMyRoom.release.xcconfig"; sourceTree = "<group>"; };
 		59AEE91F0D28E9D839EF09FC /* Pods-BookMyRoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookMyRoom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BookMyRoom/Pods-BookMyRoom.debug.xcconfig"; sourceTree = "<group>"; };
 		FBFAF4442E57F7FEFD6356D5 /* Pods_BookMyRoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BookMyRoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,10 +87,14 @@
 		3890DA1D20F79FEE002C1D4C /* BookMyRoom */ = {
 			isa = PBXGroup;
 			children = (
+				3890DA3D20F7C681002C1D4C /* Utilities */,
+				3890DA3C20F7AE81002C1D4C /* Managers */,
+				3890DA3B20F7AE73002C1D4C /* Models */,
 				3890DA3220F7A42A002C1D4C /* SupportingFiles */,
-				3890DA2220F79FEE002C1D4C /* ViewController.swift */,
-				3890DA2420F79FEE002C1D4C /* Main.storyboard */,
 				3890DA2C20F79FEF002C1D4C /* Info.plist */,
+				3890DA2420F79FEE002C1D4C /* Main.storyboard */,
+				3890DA3520F7A899002C1D4C /* RandomName.swift */,
+				3890DA2220F79FEE002C1D4C /* ViewController.swift */,
 			);
 			path = BookMyRoom;
 			sourceTree = "<group>";
@@ -91,6 +109,33 @@
 				3890DA3320F7A500002C1D4C /* Constants.swift */,
 			);
 			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		3890DA3B20F7AE73002C1D4C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3890DA4020F7C973002C1D4C /* ClickableNode.swift */,
+				3890DA4120F7C973002C1D4C /* Marker.swift */,
+				3890DA3620F7A899002C1D4C /* MarkerType.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3890DA3C20F7AE81002C1D4C /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				3890DA3720F7A899002C1D4C /* MarkerManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		3890DA3D20F7C681002C1D4C /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				3890DA3E20F7C691002C1D4C /* ARHelperFunctions.swift */,
+				3890DA4420F7CEBF002C1D4C /* Extensions.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		98B7739F2FA1AEC6CB265D20 /* Pods */ = {
@@ -218,8 +263,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				3890DA2320F79FEE002C1D4C /* ViewController.swift in Sources */,
+				3890DA3F20F7C691002C1D4C /* ARHelperFunctions.swift in Sources */,
+				3890DA3820F7A899002C1D4C /* RandomName.swift in Sources */,
+				3890DA3920F7A899002C1D4C /* MarkerType.swift in Sources */,
+				3890DA3A20F7A899002C1D4C /* MarkerManager.swift in Sources */,
+				3890DA4520F7CEBF002C1D4C /* Extensions.swift in Sources */,
 				3890DA1F20F79FEE002C1D4C /* AppDelegate.swift in Sources */,
+				3890DA4220F7C973002C1D4C /* ClickableNode.swift in Sources */,
 				3890DA3420F7A500002C1D4C /* Constants.swift in Sources */,
+				3890DA4320F7C973002C1D4C /* Marker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -33,7 +33,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
     @IBOutlet var planeDetLabel: UILabel!
     @IBOutlet var planeDetSelection: UISwitch!
     @IBOutlet var fileTransferLabel: UILabel!
-    
+    @IBOutlet weak var addMarkerButton: UIButton!
     
     //AR Scene
     private var scnScene: SCNScene!
@@ -49,7 +49,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
     
     
     //Application related variables
-    private var shapeManager: ShapeManager!
+    private var shapeManager: MarkerManager!
     private var tapRecognizer: UITapGestureRecognizer? = nil //initialized after view is loaded
     
     
@@ -66,6 +66,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
     private var locationManager: CLLocationManager!
     private var lastLocation: CLLocation? = nil
     
+    private var screenCenter: CGPoint {
+        let bounds = scnView.bounds
+        return CGPoint(x: bounds.midX, y: bounds.midY)
+    }
+    
     //Setup view once loaded
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +78,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
         setupScene()
         
         //App Related initializations
-        shapeManager = ShapeManager(scene: scnScene, view: scnView)
+        shapeManager = MarkerManager(scene: scnScene, view: scnView)
         tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         tapRecognizer!.numberOfTapsRequired = 1
         tapRecognizer!.isEnabled = false
@@ -245,7 +250,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
             mapTable.isHidden = true
             toggleSliderUI(true, reset: false)
             toggleMappingUI(false)
-            shapeManager.clearShapes() //creating new map, remove old shapes.
+            shapeManager.clearMarkers() //creating new map, remove old shapes.
         }
         else if (mappingStarted) { //mapping been running, save map
             print("Saving Map")
@@ -269,7 +274,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
                             metadata.location!.altitude = self.lastLocation!.altitude
                         }
                         var userdata: [String:Any] = [:]
-                        userdata["shapeArray"] = self.shapeManager.getShapeArray()
+                        userdata["shapeArray"] = self.shapeManager.getMarkerArray()
                         metadata.userdata = userdata
                         
                         if (!LibPlacenote.instance.setMapMetadata(mapId: mapId!, metadata: metadata)) {
@@ -303,7 +308,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
     @IBAction func pickMap(_ sender: Any) {
         
         if (localizationStarted) { // currently a map is loaded. StopSession and clearView
-            shapeManager.clearShapes()
+            shapeManager.clearMarkers()
             ptViz?.reset()
             LibPlacenote.instance.stopSession()
             localizationStarted = false
@@ -329,6 +334,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
             pickMapButton.setTitle("Load Map", for: .normal)
             newMapButton.isEnabled = true
             statusLabel.text = "Map Load cancelled"
+        }
+    }
+    @IBAction func addMarker(_ sender: UIButton) {
+        let hitTestResults = scnView.hitTest(screenCenter, types: .featurePoint)
+        if let result = hitTestResults.first {
+            let pose = LibPlacenote.instance.processPose(pose: result.worldTransform)
+            shapeManager.spawnRandomMarker(position: pose.position())
+            
         }
     }
     
@@ -457,7 +470,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
                                             self.toggleMappingUI(false) //show mapping options UI
                                             self.toggleSliderUI(true, reset: true) //hide + reset UI for later
                                             let userdata = self.maps[indexPath.row].1.userdata as? [String:Any]
-                                            if (self.shapeManager.loadShapeArray(shapeArray: userdata?["shapeArray"] as? [[String: [String: String]]])) {
+                                            if (self.shapeManager.loadMarkerArray(markerArray: userdata?["shapeArray"] as? [[String: [String: String]]])) {
                                                 self.statusLabel.text = "Map Loaded. Look Around"
                                             } else {
                                                 self.statusLabel.text = "Map Loaded. Shape file not found"
@@ -526,13 +539,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UI
     }
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
-        let tapLocation = sender.location(in: scnView)
-        let hitTestResults = scnView.hitTest(tapLocation, types: .featurePoint)
-        if let result = hitTestResults.first {
-            let pose = LibPlacenote.instance.processPose(pose: result.worldTransform)
-            shapeManager.spawnRandomShape(position: pose.position())
-            
-        }
+
     }
     
     

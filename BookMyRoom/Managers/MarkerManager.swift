@@ -46,16 +46,16 @@ func generateRandomColor() -> UIColor {
 
 
 //Class to manage a list of shapes to be view in Augmented Reality including spawning, managing a list and saving/retrieving from persistent memory using JSON
-class ShapeManager {
+class MarkerManager {
   
   private var scnScene: SCNScene!
   private var scnView: SCNView!
   
-  private var shapePositions: [SCNVector3] = []
-  private var shapeTypes: [ShapeType] = []
-  private var shapeNodes: [SCNNode] = []
+  private var markerPositions: [SCNVector3] = []
+  private var markerTypes: [ShapeType] = []
+  private var markerNodes: [SCNNode] = []
   
-  public var shapesDrawn: Bool! = false
+  public var markersDrawn: Bool! = false
 
   
   init(scene: SCNScene, view: SCNView) {
@@ -63,86 +63,86 @@ class ShapeManager {
     scnView = view
   }
   
-  func getShapeArray() -> [[String: [String: String]]] {
-    var shapeArray: [[String: [String: String]]] = []
-    if (shapePositions.count > 0) {
-      for i in 0...(shapePositions.count-1) {
-        shapeArray.append(["shape": ["style": "\(shapeTypes[i].rawValue)", "x": "\(shapePositions[i].x)",  "y": "\(shapePositions[i].y)",  "z": "\(shapePositions[i].z)" ]])
+  func getMarkerArray() -> [[String: [String: String]]] {
+    var markerArray: [[String: [String: String]]] = []
+    if (markerPositions.count > 0) {
+      for i in 0...(markerPositions.count-1) {
+        markerArray.append(["shape": ["style": "\(markerTypes[i].rawValue)", "x": "\(markerPositions[i].x)",  "y": "\(markerPositions[i].y)",  "z": "\(markerPositions[i].z)" ]])
       }
     }
-    return shapeArray
+    return markerArray
   }
 
   // Load shape array
-  func loadShapeArray(shapeArray: [[String: [String: String]]]?) -> Bool {
-    clearShapes() //clear currently viewing shapes and delete any record of them.
+  func loadMarkerArray(markerArray: [[String: [String: String]]]?) -> Bool {
+    clearMarkers() //clear currently viewing shapes and delete any record of them.
 
-    if (shapeArray == nil) {
+    if (markerArray == nil) {
         print ("Shape Manager: No shapes for this map")
         return false
     }
 
-    for item in shapeArray! {
+    for item in markerArray! {
       let x_string: String = item["shape"]!["x"]!
       let y_string: String = item["shape"]!["y"]!
       let z_string: String = item["shape"]!["z"]!
       let position: SCNVector3 = SCNVector3(x: Float(x_string)!, y: Float(y_string)!, z: Float(z_string)!)
       let type: ShapeType = ShapeType(rawValue: Int(item["shape"]!["style"]!)!)!
-      shapePositions.append(position)
-      shapeTypes.append(type)
-      shapeNodes.append(createShape(position: position, type: type))
+      markerPositions.append(position)
+      markerTypes.append(type)
+      markerNodes.append(createShape(position: position, type: type))
 
       print ("Shape Manager: Retrieved " + String(describing: type) + " type at position" + String (describing: position))
     }
 
-    print ("Shape Manager: retrieved " + String(shapePositions.count) + " shapes")
+    print ("Shape Manager: retrieved " + String(markerPositions.count) + " shapes")
     return true
   }
 
   func clearView() { //clear shapes from view
-    for shape in shapeNodes {
-      shape.removeFromParentNode()
+    for marker in markerNodes {
+      marker.removeFromParentNode()
     }
-    shapesDrawn = false
+    markersDrawn = false
   }
   
   func drawView(parent: SCNNode) {
-    guard !shapesDrawn else {return}
-    for shape in shapeNodes {
-      parent.addChildNode(shape)
+    guard !markersDrawn else {return}
+    for marker in markerNodes {
+      parent.addChildNode(marker)
     }
-    shapesDrawn = true
+    markersDrawn = true
   }
   
-  func clearShapes() { //delete all nodes and record of all shapes
+  func clearMarkers() { //delete all nodes and record of all shapes
     clearView()
-    for node in shapeNodes {
+    for node in markerNodes {
       node.geometry!.firstMaterial!.normal.contents = nil
       node.geometry!.firstMaterial!.diffuse.contents = nil
     }
-    shapeNodes.removeAll()
-    shapePositions.removeAll()
-    shapeTypes.removeAll()
+    markerNodes.removeAll()
+    markerPositions.removeAll()
+    markerTypes.removeAll()
   }
   
   
   
-  func spawnRandomShape(position: SCNVector3) {
+  func spawnRandomMarker(position: SCNVector3) {
     
     let shapeType: ShapeType = ShapeType.random()
-    placeShape(position: position, type: shapeType)
+    placeMarker(position: position, type: shapeType)
   }
   
-  func placeShape (position: SCNVector3, type: ShapeType) {
+  func placeMarker (position: SCNVector3, type: ShapeType) {
     
     let geometryNode: SCNNode = createShape(position: position, type: type)
     
-    shapePositions.append(position)
-    shapeTypes.append(type)
-    shapeNodes.append(geometryNode)
+    markerPositions.append(position)
+    markerTypes.append(type)
+    markerNodes.append(geometryNode)
     
     scnScene.rootNode.addChildNode(geometryNode)
-    shapesDrawn = true
+    markersDrawn = true
   }
   
   func createShape (position: SCNVector3, type: ShapeType) -> SCNNode {
