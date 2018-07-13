@@ -154,8 +154,6 @@ class OfficeSelectViewController: UIViewController, UITableViewDataSource, UITab
     func updateMapTable(radius: Float) {
         LibPlacenote.instance.searchMaps(latitude: self.lastLocation!.coordinate.latitude, longitude: self.lastLocation!.coordinate.longitude, radius: Double(radius), listCb: onMapList)
     }
-
-    // MARK: - UI Actions
     
     // MARK: - CLLocationManagerDelegate
     

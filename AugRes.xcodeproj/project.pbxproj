@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		385D94BA20F918FF00313979 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385D94B920F918FF00313979 /* MapViewController.swift */; };
 		3890DA1F20F79FEE002C1D4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA1E20F79FEE002C1D4C /* AppDelegate.swift */; };
 		3890DA2120F79FEE002C1D4C /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 3890DA2020F79FEE002C1D4C /* art.scnassets */; };
 		3890DA2620F79FEE002C1D4C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3890DA2420F79FEE002C1D4C /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 /* Begin PBXFileReference section */
 		087B8C03DA28B59BA821E810 /* Pods-AugRes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AugRes.release.xcconfig"; path = "Pods/Target Support Files/Pods-AugRes/Pods-AugRes.release.xcconfig"; sourceTree = "<group>"; };
 		22786E775CC8FBB5B0EBAFC3 /* Pods-AugRes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AugRes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AugRes/Pods-AugRes.debug.xcconfig"; sourceTree = "<group>"; };
+		385D94B920F918FF00313979 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		3890DA1B20F79FEE002C1D4C /* AugRes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AugRes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3890DA1E20F79FEE002C1D4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3890DA2020F79FEE002C1D4C /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				3890DA2420F79FEE002C1D4C /* Main.storyboard */,
 				3890DA4920F7F7ED002C1D4C /* AdminViewController.swift */,
 				3890DA3520F7A899002C1D4C /* RandomName.swift */,
+				385D94B920F918FF00313979 /* MapViewController.swift */,
 				3890DA4620F7F79A002C1D4C /* OfficeSelectViewController.swift */,
 			);
 			path = AugRes;
@@ -191,6 +194,7 @@
 				3890DA1820F79FEE002C1D4C /* Frameworks */,
 				3890DA1920F79FEE002C1D4C /* Resources */,
 				AD3F6C3AE214D7DFB2ED4468 /* [CP] Embed Pods Frameworks */,
+				311692E0F4E9B025161974E0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -255,6 +259,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		311692E0F4E9B025161974E0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AugRes/Pods-AugRes-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AugRes/Pods-AugRes-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AD3F6C3AE214D7DFB2ED4468 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -267,6 +289,7 @@
 				"${BUILT_PRODUCTS_DIR}/BluemixAppID/BluemixAppID.framework",
 				"${PODS_ROOT}/PlacenoteSDK/Placenote.framework",
 				"${BUILT_PRODUCTS_DIR}/PlacenoteSDK/PlacenoteSDK.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -275,6 +298,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BluemixAppID.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Placenote.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PlacenoteSDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -322,6 +346,7 @@
 				3890DA4220F7C973002C1D4C /* ClickableNode.swift in Sources */,
 				3890DA3420F7A500002C1D4C /* Constants.swift in Sources */,
 				3890DA4320F7C973002C1D4C /* Marker.swift in Sources */,
+				385D94BA20F918FF00313979 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

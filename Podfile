@@ -8,7 +8,8 @@ target 'AugRes' do
   pod 'PlacenoteSDK'
   pod 'BMSCore'
   pod 'BluemixAppID','~> 3.0'
-
+  pod 'GoogleMaps'
+  pod 'SwiftyJSON', '~> 4.0'
 end
 
 post_install do |installer|

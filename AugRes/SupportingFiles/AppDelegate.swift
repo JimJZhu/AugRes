@@ -10,6 +10,8 @@ import UIKit
 import BMSCore
 import BluemixAppID
 import PlacenoteSDK
+import GoogleMaps
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -34,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             bmsclient.authorizationManager = appIdAuthorizationManager
             TokenStorageManager.sharedInstance.initialize(tenantId: backendGUID)
         }
-        
+        GMSServices.provideAPIKey("AIzaSyCAnm-_9Xvrn4Lpotk0q1edTJYKihMJu9c")
         return true
     }
     
