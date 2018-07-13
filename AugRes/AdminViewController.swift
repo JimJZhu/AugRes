@@ -1,6 +1,6 @@
 //
 //  AdminViewController.swift
-//  BookMyRoom
+//  AugRes
 //
 //  Created by Jim on 2018-07-12.
 //  Copyright © 2018 Jim. All rights reserved.

@@ -1,9 +1,9 @@
 //
 //  RandomName.swift
-//  BookMyRoom
+//  AugRes
 //
-//  Created by Brad Hoekstra on 2018-05-18.
-//  Copyright © 2018 Vertical. All rights reserved.
+//  Created by Jim on 2018-07-12.
+//  Copyright © 2018 Jim. All rights reserved.
 //
 
 import Foundation

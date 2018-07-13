@@ -1,9 +1,9 @@
 //
-//  ShapeManager.swift
-//  Shape Dropper (Placenote SDK iOS Sample)
+//  MarkerManager.swift
+//  AugRes
 //
-//  Created by Prasenjit Mukherjee on 2017-10-20.
-//  Copyright © 2017 Vertical AI. All rights reserved.
+//  Created by Jim on 2018-07-12.
+//  Copyright © 2018 Jim. All rights reserved.
 //
 
 import Foundation

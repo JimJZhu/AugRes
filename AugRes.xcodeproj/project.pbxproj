@@ -22,11 +22,12 @@
 		3890DA4520F7CEBF002C1D4C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA4420F7CEBF002C1D4C /* Extensions.swift */; };
 		3890DA4720F7F79A002C1D4C /* OfficeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA4620F7F79A002C1D4C /* OfficeSelectViewController.swift */; };
 		3890DA4A20F7F7ED002C1D4C /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA4920F7F7ED002C1D4C /* AdminViewController.swift */; };
-		E1CBD31537ED8391F234DB18 /* Pods_BookMyRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBFAF4442E57F7FEFD6356D5 /* Pods_BookMyRoom.framework */; };
+		4ACE75994A62A9BCC52067A9 /* Pods_AugRes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F32BD52205D51172E88D39E /* Pods_AugRes.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3890DA1B20F79FEE002C1D4C /* BookMyRoom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookMyRoom.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		087B8C03DA28B59BA821E810 /* Pods-AugRes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AugRes.release.xcconfig"; path = "Pods/Target Support Files/Pods-AugRes/Pods-AugRes.release.xcconfig"; sourceTree = "<group>"; };
+		3890DA1B20F79FEE002C1D4C /* AugRes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AugRes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3890DA1E20F79FEE002C1D4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3890DA2020F79FEE002C1D4C /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		3890DA2220F79FEE002C1D4C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -43,9 +44,8 @@
 		3890DA4420F7CEBF002C1D4C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3890DA4620F7F79A002C1D4C /* OfficeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeSelectViewController.swift; sourceTree = "<group>"; };
 		3890DA4920F7F7ED002C1D4C /* AdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
-		4D59A91CFBD6F2EE200AA283 /* Pods-BookMyRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookMyRoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-BookMyRoom/Pods-BookMyRoom.release.xcconfig"; sourceTree = "<group>"; };
-		59AEE91F0D28E9D839EF09FC /* Pods-BookMyRoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookMyRoom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BookMyRoom/Pods-BookMyRoom.debug.xcconfig"; sourceTree = "<group>"; };
-		FBFAF4442E57F7FEFD6356D5 /* Pods_BookMyRoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BookMyRoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F32BD52205D51172E88D39E /* Pods_AugRes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AugRes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C0A5CC39494E110822B405F /* Pods-AugRes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AugRes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AugRes/Pods-AugRes.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1CBD31537ED8391F234DB18 /* Pods_BookMyRoom.framework in Frameworks */,
+				4ACE75994A62A9BCC52067A9 /* Pods_AugRes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,7 +63,7 @@
 		0755E2B6A349C08AAC490DC6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FBFAF4442E57F7FEFD6356D5 /* Pods_BookMyRoom.framework */,
+				6F32BD52205D51172E88D39E /* Pods_AugRes.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -71,7 +71,7 @@
 		3890DA1220F79FEE002C1D4C = {
 			isa = PBXGroup;
 			children = (
-				3890DA1D20F79FEE002C1D4C /* BookMyRoom */,
+				3890DA1D20F79FEE002C1D4C /* AugRes */,
 				3890DA1C20F79FEE002C1D4C /* Products */,
 				98B7739F2FA1AEC6CB265D20 /* Pods */,
 				0755E2B6A349C08AAC490DC6 /* Frameworks */,
@@ -81,12 +81,12 @@
 		3890DA1C20F79FEE002C1D4C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3890DA1B20F79FEE002C1D4C /* BookMyRoom.app */,
+				3890DA1B20F79FEE002C1D4C /* AugRes.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3890DA1D20F79FEE002C1D4C /* BookMyRoom */ = {
+		3890DA1D20F79FEE002C1D4C /* AugRes */ = {
 			isa = PBXGroup;
 			children = (
 				3890DA3D20F7C681002C1D4C /* Utilities */,
@@ -100,7 +100,7 @@
 				3890DA2220F79FEE002C1D4C /* ViewController.swift */,
 				3890DA4620F7F79A002C1D4C /* OfficeSelectViewController.swift */,
 			);
-			path = BookMyRoom;
+			path = AugRes;
 			sourceTree = "<group>";
 		};
 		3890DA3220F7A42A002C1D4C /* SupportingFiles */ = {
@@ -144,8 +144,8 @@
 		98B7739F2FA1AEC6CB265D20 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				59AEE91F0D28E9D839EF09FC /* Pods-BookMyRoom.debug.xcconfig */,
-				4D59A91CFBD6F2EE200AA283 /* Pods-BookMyRoom.release.xcconfig */,
+				8C0A5CC39494E110822B405F /* Pods-AugRes.debug.xcconfig */,
+				087B8C03DA28B59BA821E810 /* Pods-AugRes.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -153,9 +153,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3890DA1A20F79FEE002C1D4C /* BookMyRoom */ = {
+		3890DA1A20F79FEE002C1D4C /* AugRes */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3890DA2F20F79FEF002C1D4C /* Build configuration list for PBXNativeTarget "BookMyRoom" */;
+			buildConfigurationList = 3890DA2F20F79FEF002C1D4C /* Build configuration list for PBXNativeTarget "AugRes" */;
 			buildPhases = (
 				FC707879C8A1BC6190AC04E4 /* [CP] Check Pods Manifest.lock */,
 				3890DA1720F79FEE002C1D4C /* Sources */,
@@ -167,9 +167,9 @@
 			);
 			dependencies = (
 			);
-			name = BookMyRoom;
+			name = AugRes;
 			productName = BookMyRoom;
-			productReference = 3890DA1B20F79FEE002C1D4C /* BookMyRoom.app */;
+			productReference = 3890DA1B20F79FEE002C1D4C /* AugRes.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -187,7 +187,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3890DA1620F79FEE002C1D4C /* Build configuration list for PBXProject "BookMyRoom" */;
+			buildConfigurationList = 3890DA1620F79FEE002C1D4C /* Build configuration list for PBXProject "AugRes" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -200,7 +200,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3890DA1A20F79FEE002C1D4C /* BookMyRoom */,
+				3890DA1A20F79FEE002C1D4C /* AugRes */,
 			);
 		};
 /* End PBXProject section */
@@ -226,7 +226,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BookMyRoom/Pods-BookMyRoom-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-AugRes/Pods-AugRes-frameworks.sh",
 				"${PODS_ROOT}/PlacenoteSDK/Placenote.framework",
 				"${BUILT_PRODUCTS_DIR}/PlacenoteSDK/PlacenoteSDK.framework",
 			);
@@ -237,7 +237,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BookMyRoom/Pods-BookMyRoom-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AugRes/Pods-AugRes-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FC707879C8A1BC6190AC04E4 /* [CP] Check Pods Manifest.lock */ = {
@@ -251,7 +251,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BookMyRoom-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-AugRes-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -417,18 +417,18 @@
 		};
 		3890DA3020F79FEF002C1D4C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 59AEE91F0D28E9D839EF09FC /* Pods-BookMyRoom.debug.xcconfig */;
+			baseConfigurationReference = 8C0A5CC39494E110822B405F /* Pods-AugRes.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B4286U26SY;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = BookMyRoom/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/AugRes/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jimjzhu.BookMyRoom;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jimjzhu.AugRes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -437,18 +437,18 @@
 		};
 		3890DA3120F79FEF002C1D4C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4D59A91CFBD6F2EE200AA283 /* Pods-BookMyRoom.release.xcconfig */;
+			baseConfigurationReference = 087B8C03DA28B59BA821E810 /* Pods-AugRes.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B4286U26SY;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = BookMyRoom/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/AugRes/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jimjzhu.BookMyRoom;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jimjzhu.AugRes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -458,7 +458,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3890DA1620F79FEE002C1D4C /* Build configuration list for PBXProject "BookMyRoom" */ = {
+		3890DA1620F79FEE002C1D4C /* Build configuration list for PBXProject "AugRes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3890DA2D20F79FEF002C1D4C /* Debug */,
@@ -467,7 +467,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3890DA2F20F79FEF002C1D4C /* Build configuration list for PBXNativeTarget "BookMyRoom" */ = {
+		3890DA2F20F79FEF002C1D4C /* Build configuration list for PBXNativeTarget "AugRes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3890DA3020F79FEF002C1D4C /* Debug */,

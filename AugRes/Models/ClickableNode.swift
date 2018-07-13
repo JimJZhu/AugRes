@@ -1,6 +1,6 @@
 //
 //  ClickableNode.swift
-//  ARCloudAnchors
+//  AugRes
 //
 //  Created by Jim on 2018-06-11.
 //  Copyright © 2018 Jim. All rights reserved.
