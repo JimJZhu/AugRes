@@ -15,7 +15,7 @@
         <!--Admin-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="AdminViewController" customModule="BookMyRoom" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BV1-FR-VrT" customClass="AdminViewController" customModule="AugRes" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="j89-Gv-ip5"/>
                         <viewControllerLayoutGuide type="bottom" id="Oxp-Pf-bN1"/>
@@ -226,7 +226,7 @@
         <!--StartupView-->
         <scene sceneID="LPf-R9-uwD">
             <objects>
-                <viewController id="slJ-fa-OAg" userLabel="StartupView" customClass="StartupViewController" customModule="BookMyRoom" sceneMemberID="viewController">
+                <viewController id="slJ-fa-OAg" userLabel="StartupView" customClass="StartupViewController" customModule="AugRes" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="YyB-1i-7zP"/>
                         <viewControllerLayoutGuide type="bottom" id="5db-87-Y8i"/>
@@ -258,7 +258,7 @@
         <!--LandingViewController-->
         <scene sceneID="LUe-uh-tsU">
             <objects>
-                <viewController storyboardIdentifier="LandingViewController" id="ojp-2k-ShZ" userLabel="LandingViewController" customClass="ViewController" customModule="BookMyRoom" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LandingViewController" id="ojp-2k-ShZ" userLabel="LandingViewController" customClass="ViewController" customModule="AugRes" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NZg-09-BNK"/>
                         <viewControllerLayoutGuide type="bottom" id="Mzi-W0-Ubc"/>
@@ -394,7 +394,7 @@
         <!--Office Select View Controller-->
         <scene sceneID="TSJ-Sj-I1M">
             <objects>
-                <viewController storyboardIdentifier="AfterLoginView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bbx-6B-RQj" customClass="OfficeSelectViewController" customModule="BookMyRoom" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AfterLoginView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bbx-6B-RQj" customClass="OfficeSelectViewController" customModule="AugRes" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aQm-Bi-FgI"/>
                         <viewControllerLayoutGuide type="bottom" id="neG-Be-kf6"/>
@@ -456,7 +456,7 @@
         <!--120 Bloor-->
         <scene sceneID="ErM-mk-Vnv">
             <objects>
-                <viewController id="vSv-cy-7gO" customClass="AfterLoginViewController" customModule="BookMyRoom" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vSv-cy-7gO" customClass="AfterLoginViewController" customModule="AugRes" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gND-Jg-3VC"/>
                         <viewControllerLayoutGuide type="bottom" id="stg-zP-fby"/>
@@ -597,6 +597,6 @@
         <image name="hint.png" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uLA-Yp-ack"/>
+        <segue reference="EYv-ei-Skc"/>
     </inferredMetricsTieBreakers>
 </document>
