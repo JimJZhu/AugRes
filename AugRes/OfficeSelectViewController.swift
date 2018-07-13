@@ -9,8 +9,12 @@
 import UIKit
 import PlacenoteSDK
 import CoreLocation
+import BluemixAppID
 
 class OfficeSelectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate {
+    
+    var accessToken:AccessToken?
+    var idToken:IdentityToken?
 
     @IBOutlet weak var mapTable: UITableView!
     
@@ -165,7 +169,7 @@ class OfficeSelectViewController: UIViewController, UITableViewDataSource, UITab
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Switches destination depending on which button was clicked
         if segue.identifier != nil {
-            if let destinationVC = segue.destination.contents as? ViewController {
+            if let destinationVC = segue.destination.contents as? AfterLoginViewController {
                 destinationVC.maps = maps
                 destinationVC.locationManager = locationManager
                 destinationVC.userData = userData
