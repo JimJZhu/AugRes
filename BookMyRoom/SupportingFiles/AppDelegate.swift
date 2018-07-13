@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import BMSCore
+import BluemixAppID
 import PlacenoteSDK
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,7 +20,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         LibPlacenote.instance.initialize(apiKey: placenoteAPIKey)
 
+        // Initialize the AppID instance with your tenant ID and region
+        // App Id initialization
+        // NOTE: Enable Keychain Sharing capability in Xcode
+        if let contents = Bundle.main.path(forResource:"BMSCredentials", ofType: "plist"), let dictionary = NSDictionary(contentsOfFile: contents) {
+            let region = AppID.REGION_US_SOUTH
+            let bmsclient = BMSClient.sharedInstance
+            let backendGUID = "fe21ca30-eb39-4d74-856b-151efb35058f"
+            bmsclient.initialize(bluemixRegion: region)
+            let appid = AppID.sharedInstance
+            appid.initialize(tenantId: backendGUID, bluemixRegion: region)
+            let appIdAuthorizationManager = AppIDAuthorizationManager(appid:appid)
+            bmsclient.authorizationManager = appIdAuthorizationManager
+            TokenStorageManager.sharedInstance.initialize(tenantId: backendGUID)
+        }
+        
         return true
+    }
+    
+    func application(_ application: UIApplication, open url: URL, options :[UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        return AppID.sharedInstance.application(application, open: url, options: options)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

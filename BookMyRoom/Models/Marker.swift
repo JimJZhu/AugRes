@@ -30,7 +30,7 @@ class Marker: ClickableNode, Codable{
     //MARK: - Init
     init(id: String){
         self.id = id
-        self.status = 0.randomInt(max: 1) == 1 ? .Available : .Unavailable
+        self.status = .Available
         super.init()
         render()
         self.name = "marker"
