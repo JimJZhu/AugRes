@@ -112,7 +112,6 @@
 				3890DA4920F7F7ED002C1D4C /* AdminViewController.swift */,
 				3890DA3520F7A899002C1D4C /* RandomName.swift */,
 				3890DA4620F7F79A002C1D4C /* OfficeSelectViewController.swift */,
-				71F403BF20F904C300A6D7CE /* AfterLoginViewController.swift */,
 			);
 			path = BookMyRoom;
 			sourceTree = "<group>";
@@ -162,6 +161,7 @@
 				71F403B120F81AFE00A6D7CE /* StartupViewController.swift */,
 				71F403B220F81AFE00A6D7CE /* TokenStorage.swift */,
 				71F403B320F81AFE00A6D7CE /* ViewController.swift */,
+				71F403BF20F904C300A6D7CE /* AfterLoginViewController.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
