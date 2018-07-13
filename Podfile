@@ -6,6 +6,8 @@ target 'BookMyRoom' do
   use_frameworks!
 
   pod 'PlacenoteSDK'
+  pod 'BMSCore'
+  pod 'BluemixAppID','~> 3.0'
 
 end
 

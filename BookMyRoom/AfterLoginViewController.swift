@@ -11,9 +11,12 @@ import SceneKit
 import ARKit
 import CoreLocation
 import PlacenoteSDK
+import BluemixAppID
 
-class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UITableViewDelegate, UITableViewDataSource, PNDelegate, CLLocationManagerDelegate {
+class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UITableViewDelegate, UITableViewDataSource, PNDelegate, CLLocationManagerDelegate {
     
+    var accessToken:AccessToken?
+    var idToken:IdentityToken?
     
     //UI Elements
     @IBOutlet var scnView: ARSCNView!
