@@ -89,7 +89,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, PN
         LibPlacenote.instance.multiDelegate += self;
 
         //UI Updates
-        toggleMappingUI(true) //hide mapping UI options
+//        toggleMappingUI(true) //hide mapping UI options
         locationManager = CLLocationManager()
         locationManager.requestWhenInUseAuthorization()
         
@@ -169,7 +169,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, PN
         scnScene = SCNScene()
         scnView.scene = scnScene
         ptViz = FeaturePointVisualizer(inputScene: scnScene);
-        ptViz?.enableFeaturePoints()
+//        ptViz?.enableFeaturePoints()
         
         if let camera: SCNNode = scnView?.pointOfView {
             camManager = CameraManager(scene: scnScene, cam: camera)
@@ -410,7 +410,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, PN
     
     func showSessionCodeDialog(marker: Marker) {
         // Brings up the dialog box for anchor resolution
-        let alertController = UIAlertController(title: "Book Desk \(randomInt(min: 300, max: 800))?", message: "", preferredStyle: .alert)
+        var title: String
+        if marker.status == .Available{
+            title = "Book Desk \(300.randomInt(max: 800))?"
+        }else {
+            title = "Unbook Desk \(300.randomInt(max: 800))?"
+        }
+        let alertController = UIAlertController(title: title, message: "", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {[unowned self] (_ action: UIAlertAction?) -> Void in
             if marker.status == .Available {
                 marker.status = .Unavailable
@@ -426,10 +432,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, PN
         
         present(alertController, animated: false, completion: nil)
     }
-    func randomInt(min: Int, max:Int) -> Int {
-        return min + Int(arc4random_uniform(UInt32(max - min + 1)))
+}
+extension Int {
+    func randomInt(max:Int) -> Int {
+        return self + Int(arc4random_uniform(UInt32(max - self + 1)))
     }
 }
-
 
 
