@@ -13,6 +13,24 @@ class ARHelperFunctions {
     static let moveForward = SCNAction.moveBy(x: 0, y: 0, z: 0.01, duration: 0.15)
     static let moveBack = SCNAction.moveBy(x: 0, y: 0, z: -0.01, duration: 0.15)
     
+    static let moveUp = SCNAction.moveBy(x: 0, y: 0.1, z: 0, duration: 0.5)
+    static let moveDown = SCNAction.moveBy(x: 0, y: -0.1, z: 0, duration: 0.5)
+    
+    static let rotate = SCNAction.rotateBy(x: 0, y: CGFloat(2 * Double.pi), z: 0, duration: 3)
+    
+    static var scaleAction: SCNAction{
+        return SCNAction.scale(to: 0.005, duration: 0.5)
+    }
+    
+    static func rotateAction(node: SCNNode) {
+        let repAction = SCNAction.repeatForever(rotate)
+        node.runAction(repAction, forKey: "rotate")
+    }
+    static func bounceAction(node: SCNNode) {
+        let bounce = SCNAction.sequence([moveUp, moveDown])
+        let repAction = SCNAction.repeatForever(bounce)
+        node.runAction(repAction, forKey: "bounce")
+    }
     static func clickAction(node: SCNNode) {
         let move = SCNAction.sequence([moveForward, moveBack])
         let repeatTwice = SCNAction.repeat(move, count: 1)

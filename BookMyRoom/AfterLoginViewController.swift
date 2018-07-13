@@ -13,30 +13,18 @@ import CoreLocation
 import PlacenoteSDK
 import BluemixAppID
 
-class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UITableViewDelegate, UITableViewDataSource, PNDelegate, CLLocationManagerDelegate {
-    
-    var accessToken:AccessToken?
-    var idToken:IdentityToken?
+class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, PNDelegate, CLLocationManagerDelegate {
     
     //UI Elements
     @IBOutlet var scnView: ARSCNView!
     
     //UI Elements for the map table
-    @IBOutlet var mapTable: UITableView!
-    @IBOutlet var filterLabel2: UILabel!
-    @IBOutlet var filterLabel1: UILabel!
-    @IBOutlet var filterSlider: UISlider!
-    
-    
-    @IBOutlet var newMapButton: UIButton!
-    @IBOutlet var pickMapButton: UIButton!
     @IBOutlet var statusLabel: UILabel!
     @IBOutlet var showPNLabel: UILabel!
     @IBOutlet var showPNSelection: UISwitch!
     @IBOutlet var planeDetLabel: UILabel!
     @IBOutlet var planeDetSelection: UISwitch!
     @IBOutlet var fileTransferLabel: UILabel!
-    @IBOutlet weak var addMarkerButton: UIButton!
     
     //AR Scene
     private var scnScene: SCNScene!
@@ -57,7 +45,7 @@ class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDe
     
     
     //Variables to manage PlacenoteSDK features and helpers
-    private var maps: [(String, LibPlacenote.MapMetadata)] = [("Sample Map", LibPlacenote.MapMetadata())]
+    var maps: [(String, LibPlacenote.MapMetadata)] = [("Sample Map", LibPlacenote.MapMetadata())]
     private var camManager: CameraManager? = nil;
     private var ptViz: FeaturePointVisualizer? = nil;
     private var planesVizAnchors = [ARAnchor]();
@@ -66,7 +54,7 @@ class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDe
     private var showFeatures: Bool = true
     private var planeDetection: Bool = false
     
-    private var locationManager: CLLocationManager!
+    var locationManager: CLLocationManager!
     private var lastLocation: CLLocation? = nil
     
     private var screenCenter: CGPoint {
@@ -74,6 +62,8 @@ class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDe
         return CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
+    var userData: [String: Any]?
+    var mapID: String?
     //Setup view once loaded
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,24 +72,23 @@ class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDe
         
         //App Related initializations
         shapeManager = MarkerManager(scene: scnScene, view: scnView)
+        if shapeManager.loadMarkerArray(markerArray: self.userData?["markerArray"] as? [[String: [String: String]]]) {
+            self.statusLabel.text = "Map Loaded. Look Around"
+        } else {
+            self.statusLabel.text = "Map Loaded. Shape file not found"
+        }
         tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         tapRecognizer!.numberOfTapsRequired = 1
-        tapRecognizer!.isEnabled = false
+        tapRecognizer!.isEnabled = true
+        //        print("isdisabled")
+        
         scnView.addGestureRecognizer(tapRecognizer!)
         
         //IMPORTANT: need to run this line to subscribe to pose and status events
         //Declare yourself to be one of the delegates of PNDelegate to receive pose and status updates
         LibPlacenote.instance.multiDelegate += self;
         
-        //Initialize tableview for the list of maps
-        mapTable.delegate = self
-        mapTable.dataSource = self
-        mapTable.allowsSelection = true
-        mapTable.isUserInteractionEnabled = true
-        mapTable.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        
         //UI Updates
-        newMapButton.isEnabled = false
         toggleMappingUI(true) //hide mapping UI options
         locationManager = CLLocationManager()
         locationManager.requestWhenInUseAuthorization()
@@ -109,6 +98,46 @@ class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDe
             locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
             locationManager.startUpdatingLocation()
         }
+        
+        // Start session
+        LibPlacenote.instance.loadMap(mapId: mapID!,
+                                      downloadProgressCb: {(completed: Bool, faulted: Bool, percentage: Float) -> Void in
+                                        if (completed) {
+                                            self.mappingStarted = false
+                                            self.mappingComplete = false
+                                            self.localizationStarted = true
+                                            self.toggleMappingUI(false) //show mapping options UI
+                                            if (self.shapeManager.loadMarkerArray(markerArray: self.userData?["markerArray"] as? [[String: [String: String]]])) {
+                                                self.statusLabel.text = "Map Loaded. Look Around"
+                                            } else {
+                                                self.statusLabel.text = "Map Loaded. Shape file not found"
+                                            }
+                                            LibPlacenote.instance.startSession()
+                                            //                self.tapRecognizer?.isEnabled = true
+                                            //                print("isenabled")
+                                            
+                                            if (self.reportDebug) {
+                                                LibPlacenote.instance.startReportRecord (uploadProgressCb: ({(completed: Bool, faulted: Bool, percentage: Float) -> Void in
+                                                    if (completed) {
+                                                        self.statusLabel.text = "Dataset Upload Complete"
+                                                        self.fileTransferLabel.text = ""
+                                                    } else if (faulted) {
+                                                        self.statusLabel.text = "Dataset Upload Faulted"
+                                                        self.fileTransferLabel.text = ""
+                                                    } else {
+                                                        self.fileTransferLabel.text = "Dataset Upload: " + String(format: "%.3f", percentage) + "/1.0"
+                                                    }
+                                                })
+                                                )
+                                                print ("Started Debug Report")
+                                            }
+                                        } else if (faulted) {
+                                            print ("Couldnt load map: " + self.mapID!)
+                                            self.statusLabel.text = "Load error Map Id: " +  self.mapID!
+                                        } else {
+                                            print ("Progress: " + percentage.description)
+                                        }
+        })
     }
     
     //Initialize view and scene
@@ -133,11 +162,6 @@ class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDe
         scnView.session.delegate = self
         scnView.isPlaying = true
         scnView.debugOptions = []
-        mapTable.isHidden = true //hide the map list until 'Load Map' is clicked
-        filterSlider.isContinuous = false
-        toggleSliderUI(true, reset: true) //hide the radius search UI, reset values as we are initializating
-        //scnView.debugOptions = ARSCNDebugOptions.showFeaturePoints
-        //scnView.debugOptions = ARSCNDebugOptions.showWorldOrigin
     }
     
     //Function to setup AR Scene
@@ -170,15 +194,19 @@ class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDe
         if prevStatus != LibPlacenote.MappingStatus.running && currStatus == LibPlacenote.MappingStatus.running { //just localized draw shapes you've retrieved
             print ("Just localized, drawing view")
             shapeManager.drawView(parent: scnScene.rootNode) //just localized redraw the shapes
+            for node in shapeManager.markerNodes {
+                node.clickAction = {
+                    self.showSessionCodeDialog(marker: node)
+                }
+            }
             if mappingStarted {
                 statusLabel.text = "Tap anywhere to add Shapes, Move Slowly"
             }
             else if localizationStarted {
                 statusLabel.text = "Map Found!"
             }
-            addMarkerButton?.isEnabled = true
             tapRecognizer?.isEnabled = true
-
+            print("isenabled")
             //As you are localized, the camera has been moved to match that of Placenote's Map. Transform the planes
             //currently being drawn from the arkit frame of reference to the Placenote map's frame of reference.
             for (_, node) in planesVizNodes {
@@ -191,166 +219,17 @@ class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDe
             if mappingStarted {
                 statusLabel.text = "Moved too fast. Map Lost"
             }
-            addMarkerButton?.isEnabled = false
-            tapRecognizer?.isEnabled = false
-
+            //            tapRecognizer?.isEnabled = false
+            //            print("isdisabled")
+            
         }
         
-    }
-    
-    //Receive list of maps after it is retrieved. This is only fired when fetchMapList is called (see updateMapTable())
-    func onMapList(success: Bool, mapList: [String: LibPlacenote.MapMetadata]) -> Void {
-        maps.removeAll()
-        if (!success) {
-            print ("failed to fetch map list")
-            statusLabel.text = "Map List not retrieved"
-            return
-        }
-        
-        print ("map List received")
-        for place in mapList {
-            maps.append((place.key, place.value))
-            print ("place:" + place.key + ", metadata: ")
-            print (place.value)
-        }
-        
-        statusLabel.text = "Map List"
-        self.mapTable.reloadData() //reads from maps array (see: tableView functions)
-        self.mapTable.isHidden = false
-        self.toggleSliderUI(false, reset: false)
-        self.addMarkerButton?.isEnabled = false
-        tapRecognizer?.isEnabled = false
     }
     
     // MARK: - UI functions
     
-    @IBAction func newSaveMapButton(_ sender: Any) {
-        if (trackingStarted && !mappingStarted) { //ARKit is enabled, start mapping
-            print ("New Map")
-            mappingStarted = true
-            
-            LibPlacenote.instance.stopSession()
-            
-            LibPlacenote.instance.startSession()
-            
-            if (reportDebug) {
-                LibPlacenote.instance.startReportRecord(uploadProgressCb: {(completed: Bool, faulted: Bool, percentage: Float) -> Void in
-                    if (completed) {
-                        self.statusLabel.text = "Dataset Upload Complete"
-                        self.fileTransferLabel.text = ""
-                    } else if (faulted) {
-                        self.statusLabel.text = "Dataset Upload Faulted"
-                        self.fileTransferLabel.text = ""
-                    } else {
-                        self.fileTransferLabel.text = "Dataset Upload: " + String(format: "%.3f", percentage) + "/1.0"
-                    }
-                })
-                print ("Started Debug Report")
-            }
-            
-            localizationStarted = false
-            pickMapButton.setTitle("Load Map", for: .normal)
-            newMapButton.setTitle("Save Map", for: .normal)
-            statusLabel.text = "Mapping: Tap to add shapes!"
-            addMarkerButton?.isEnabled = true
-            tapRecognizer?.isEnabled = true
-            mapTable.isHidden = true
-            toggleSliderUI(true, reset: false)
-            toggleMappingUI(false)
-            shapeManager.clearMarkers() //creating new map, remove old shapes.
-        }
-        else if (mappingStarted) { //mapping been running, save map
-            print("Saving Map")
-            statusLabel.text = "Saving Map"
-            mappingStarted = false
-            mappingComplete = true
-            LibPlacenote.instance.saveMap(
-                savedCb: {(mapId: String?) -> Void in
-                    if (mapId != nil) {
-                        self.statusLabel.text = "Saved Id: " + mapId! //update UI
-                        LibPlacenote.instance.stopSession()
-                        
-                        let metadata = LibPlacenote.MapMetadataSettable()
-                        metadata.name = RandomName.Get()
-                        self.statusLabel.text = "Saved Map: " + metadata.name! //update UI
-                        
-                        if (self.lastLocation != nil) {
-                            metadata.location = LibPlacenote.MapLocation()
-                            metadata.location!.latitude = self.lastLocation!.coordinate.latitude
-                            metadata.location!.longitude = self.lastLocation!.coordinate.longitude
-                            metadata.location!.altitude = self.lastLocation!.altitude
-                        }
-                        var userdata: [String:Any] = [:]
-                        userdata["markerArray"] = self.shapeManager.getMarkerArray()
-                        metadata.userdata = userdata
-                        
-                        if (!LibPlacenote.instance.setMapMetadata(mapId: mapId!, metadata: metadata)) {
-                            print ("Failed to set map metadata")
-                        }
-                        self.planeDetSelection.isOn = false
-                        self.planeDetection = false
-                        self.configureSession()
-                    } else {
-                        NSLog("Failed to save map")
-                    }
-            },
-                uploadProgressCb: {(completed: Bool, faulted: Bool, percentage: Float) -> Void in
-                    if (completed) {
-                        print ("Uploaded!")
-                        self.fileTransferLabel.text = ""
-                    } else if (faulted) {
-                        print ("Couldnt upload map")
-                    } else {
-                        print ("Progress: " + percentage.description)
-                        self.fileTransferLabel.text = "Map Upload: " + String(format: "%.3f", percentage) + "/1.0"
-                    }
-            }
-            )
-            newMapButton.setTitle("New Map", for: .normal)
-            addMarkerButton?.isEnabled = false
-            tapRecognizer?.isEnabled = false
-            toggleMappingUI(true) //hide mapping UI
-        }
-    }
-    
-    @IBAction func pickMap(_ sender: Any) {
-        print("pick")
-        if (localizationStarted) { // currently a map is loaded. StopSession and clearView
-            shapeManager.clearMarkers()
-            ptViz?.reset()
-            LibPlacenote.instance.stopSession()
-            localizationStarted = false
-            pickMapButton.setTitle("Load Map", for: .normal)
-            statusLabel.text = "Cleared"
-            toggleMappingUI(true) //hided mapping options
-            planeDetSelection.isOn = false
-            planeDetection = false
-            configureSession()
-            return
-        }
-        
-        if (mapTable.isHidden) { //fetch map list and show table of maps
-            updateMapTable()
-            pickMapButton.setTitle("Cancel", for: .normal)
-            newMapButton.isEnabled = false
-            statusLabel.text = "Fetching Map List"
-            toggleSliderUI(true, reset: true)
-        }
-        else { //map load/localization session cancelled
-            mapTable.isHidden = true
-            toggleSliderUI(true, reset: false)
-            pickMapButton.setTitle("Load Map", for: .normal)
-            newMapButton.isEnabled = true
-            statusLabel.text = "Map Load cancelled"
-        }
-    }
-    @IBAction func addMarker(_ sender: UIButton) {
-        let hitTestResults = scnView.hitTest(screenCenter, types: .featurePoint)
-        if let result = hitTestResults.first {
-            let pose = LibPlacenote.instance.processPose(pose: result.worldTransform)
-            shapeManager.placeMarker(position: pose.position())
-            
-        }
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func onShowFeatureChange(_ sender: Any) {
@@ -361,13 +240,6 @@ class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDe
         else {
             ptViz?.disableFeaturePoints()
         }
-    }
-    
-    @IBAction func onDistanceFilterChange(_ sender: UISlider) {
-        let currentValue = Float(sender.value)*maxRadiusSearch
-        filterLabel1.text = String.localizedStringWithFormat("Distance filter: %.2f km", currentValue/1000.0)
-        currRadiusSearch = currentValue
-        updateMapTable(radius: currRadiusSearch)
     }
     
     @IBAction func onPlaneDetectionOnOff(_ sender: Any) {
@@ -401,154 +273,15 @@ class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDe
         scnView.session.run(configuration)
     }
     
-    func toggleSliderUI (_ on: Bool, reset: Bool) {
-        filterSlider.isHidden = on
-        filterLabel1.isHidden = on
-        filterLabel2.isHidden = on
-        if (reset) {
-            filterSlider.value = 1.0
-            filterLabel1.text = "Distance slider: Off"
-        }
-    }
-    
     func toggleMappingUI(_ on: Bool) {
         planeDetLabel.isHidden = on
         planeDetSelection.isHidden = on
         showPNLabel.isHidden = on
         showPNSelection.isHidden = on
-        addMarkerButton.isHidden = on
-    }
-    
-    // MARK: - UITableViewDelegate and UITableviewDataSource to manage retrieving, viewing, deleting and selecting maps on a TableView
-    
-    //Return count of maps
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(String(format: "Map size: %d", maps.count))
-        return maps.count
-    }
-    
-    //Label Map rows
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let map = self.maps[indexPath.row]
-        var cell:UITableViewCell? = mapTable.dequeueReusableCell(withIdentifier: map.0)
-        if cell==nil {
-            cell =  UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: map.0)
-        }
-        cell?.textLabel?.text = map.0
-        
-        let name = map.1.name
-        if name != nil && !name!.isEmpty {
-            cell?.textLabel?.text = name
-        }
-        
-        var subtitle = "Distance Unknown"
-        
-        let location = map.1.location
-        
-        if (lastLocation == nil) {
-            subtitle = "User location unknown"
-        } else if (location == nil) {
-            subtitle = "Map location unknown"
-        } else {
-            let distance = lastLocation!.distance(from: CLLocation(
-                latitude: location!.latitude,
-                longitude: location!.longitude))
-            subtitle = String(format: "Distance: %0.3fkm", distance / 1000)
-        }
-        
-        cell?.detailTextLabel?.text = subtitle
-        
-        return cell!
-    }
-    
-    //Map selected
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(String(format: "Retrieving row: %d", indexPath.row))
-        print("Retrieving mapId: " + maps[indexPath.row].0)
-        statusLabel.text = "Retrieving mapId: " + maps[indexPath.row].0
-        
-        LibPlacenote.instance.loadMap(mapId: maps[indexPath.row].0,
-                                      downloadProgressCb: {(completed: Bool, faulted: Bool, percentage: Float) -> Void in
-                                        if (completed) {
-                                            self.mappingStarted = false
-                                            self.mappingComplete = false
-                                            self.localizationStarted = true
-                                            self.mapTable.isHidden = true
-                                            self.pickMapButton.setTitle("Stop/Clear", for: .normal)
-                                            self.newMapButton.isEnabled = true
-                                            self.toggleMappingUI(false) //show mapping options UI
-                                            self.toggleSliderUI(true, reset: true) //hide + reset UI for later
-                                            let userdata = self.maps[indexPath.row].1.userdata as? [String:Any]
-                                            if (self.shapeManager.loadMarkerArray(markerArray: userdata?["markerArray"] as? [[String: [String: String]]])) {
-                                                self.statusLabel.text = "Map Loaded. Look Around"
-                                            } else {
-                                                self.statusLabel.text = "Map Loaded. Shape file not found"
-                                            }
-                                            LibPlacenote.instance.startSession()
-                                            
-                                            
-                                            
-                                            if (self.reportDebug) {
-                                                LibPlacenote.instance.startReportRecord (uploadProgressCb: ({(completed: Bool, faulted: Bool, percentage: Float) -> Void in
-                                                    if (completed) {
-                                                        self.statusLabel.text = "Dataset Upload Complete"
-                                                        self.fileTransferLabel.text = ""
-                                                    } else if (faulted) {
-                                                        self.statusLabel.text = "Dataset Upload Faulted"
-                                                        self.fileTransferLabel.text = ""
-                                                    } else {
-                                                        self.fileTransferLabel.text = "Dataset Upload: " + String(format: "%.3f", percentage) + "/1.0"
-                                                    }
-                                                })
-                                                )
-                                                print ("Started Debug Report")
-                                            }
-                                            
-                                            self.addMarkerButton?.isEnabled = true
-                                                self.tapRecognizer?.isEnabled = true
-                                        } else if (faulted) {
-                                            print ("Couldnt load map: " + self.maps[indexPath.row].0)
-                                            self.statusLabel.text = "Load error Map Id: " +  self.maps[indexPath.row].0
-                                        } else {
-                                            print ("Progress: " + percentage.description)
-                                        }
-        }
-        )
-    }
-    
-    //Make rows editable for deletion
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    //Delete Row and its corresponding map
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.delete) {
-            statusLabel.text = "Deleting Map:" + maps[indexPath.row].0
-            LibPlacenote.instance.deleteMap(mapId: maps[indexPath.row].0, deletedCb: {(deleted: Bool) -> Void in
-                if (deleted) {
-                    print("Deleting: " + self.maps[indexPath.row].0)
-                    self.statusLabel.text = "Deleted Map: " + self.maps[indexPath.row].0
-                    self.maps.remove(at: indexPath.row)
-                    self.mapTable.reloadData()
-                }
-                else {
-                    print ("Can't Delete: " + self.maps[indexPath.row].0)
-                    self.statusLabel.text = "Can't Delete: " + self.maps[indexPath.row].0
-                }
-            })
-        }
-    }
-    
-    func updateMapTable() {
-        LibPlacenote.instance.fetchMapList(listCb: onMapList)
-    }
-    
-    func updateMapTable(radius: Float) {
-        LibPlacenote.instance.searchMaps(latitude: self.lastLocation!.coordinate.latitude, longitude: self.lastLocation!.coordinate.longitude, radius: Double(radius), listCb: onMapList)
     }
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
+        print("tapped")
         // Deselect from dragging
         if sender.state == .ended {
             let location: CGPoint = sender.location(in: scnView)
@@ -657,8 +390,6 @@ class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDe
             if (!trackingStarted) {
                 trackingStarted = true
                 print("ARKit Enabled, Start Mapping")
-                newMapButton.isEnabled = true
-                newMapButton.setTitle("New Map", for: .normal)
             }
             status = "Ready"
         }
@@ -676,7 +407,26 @@ class AfterLoginViewController: UIViewController, ARSCNViewDelegate, ARSessionDe
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         lastLocation = locations.last
     }
+    
+    func showSessionCodeDialog(marker: Marker) {
+        // Brings up the dialog box for anchor resolution
+        let alertController = UIAlertController(title: "Book Desk \(randomInt(min: 300, max: 800))?", message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {[unowned self] (_ action: UIAlertAction?) -> Void in
+            if marker.status == .Available {
+                marker.status = .Unavailable
+            } else {
+                marker.status = .Available
+            }
+        })
+        let cancelAction = UIAlertAction(title: "CANCEL", style: .default, handler: {(_ action: UIAlertAction?) -> Void in
+            alertController.dismiss(animated: true, completion: nil)
+        })
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: false, completion: nil)
+    }
+    func randomInt(min: Int, max:Int) -> Int {
+        return min + Int(arc4random_uniform(UInt32(max - min + 1)))
+    }
 }
-
-
-
