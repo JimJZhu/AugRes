@@ -79,7 +79,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, PN
         }
         tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         tapRecognizer!.numberOfTapsRequired = 1
-        tapRecognizer!.isEnabled = false
+        tapRecognizer!.isEnabled = true
+//        print("isdisabled")
+
         scnView.addGestureRecognizer(tapRecognizer!)
         
         //IMPORTANT: need to run this line to subscribe to pose and status events
@@ -111,7 +113,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, PN
                     self.statusLabel.text = "Map Loaded. Shape file not found"
                 }
                 LibPlacenote.instance.startSession()
-                
+//                self.tapRecognizer?.isEnabled = true
+//                print("isenabled")
+
                 if (self.reportDebug) {
                     LibPlacenote.instance.startReportRecord (uploadProgressCb: ({(completed: Bool, faulted: Bool, percentage: Float) -> Void in
                         if (completed) {
@@ -127,7 +131,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, PN
                     )
                     print ("Started Debug Report")
                 }
-                self.tapRecognizer?.isEnabled = true
             } else if (faulted) {
                 print ("Couldnt load map: " + self.mapID!)
                 self.statusLabel.text = "Load error Map Id: " +  self.mapID!
@@ -191,6 +194,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, PN
         if prevStatus != LibPlacenote.MappingStatus.running && currStatus == LibPlacenote.MappingStatus.running { //just localized draw shapes you've retrieved
             print ("Just localized, drawing view")
             shapeManager.drawView(parent: scnScene.rootNode) //just localized redraw the shapes
+            for node in shapeManager.markerNodes {
+                node.clickAction = {
+                    self.showSessionCodeDialog(marker: node)
+                }
+            }
             if mappingStarted {
                 statusLabel.text = "Tap anywhere to add Shapes, Move Slowly"
             }
@@ -198,7 +206,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, PN
                 statusLabel.text = "Map Found!"
             }
             tapRecognizer?.isEnabled = true
-
+            print("isenabled")
             //As you are localized, the camera has been moved to match that of Placenote's Map. Transform the planes
             //currently being drawn from the arkit frame of reference to the Placenote map's frame of reference.
             for (_, node) in planesVizNodes {
@@ -211,7 +219,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, PN
             if mappingStarted {
                 statusLabel.text = "Moved too fast. Map Lost"
             }
-            tapRecognizer?.isEnabled = false
+//            tapRecognizer?.isEnabled = false
+//            print("isdisabled")
 
         }
         
@@ -272,6 +281,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, PN
     }
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
+        print("tapped")
         // Deselect from dragging
         if sender.state == .ended {
             let location: CGPoint = sender.location(in: scnView)
@@ -396,6 +406,28 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, PN
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         lastLocation = locations.last
+    }
+    
+    func showSessionCodeDialog(marker: Marker) {
+        // Brings up the dialog box for anchor resolution
+        let alertController = UIAlertController(title: "Book Desk \(randomInt(min: 300, max: 800))?", message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {[unowned self] (_ action: UIAlertAction?) -> Void in
+            if marker.status == .Available {
+                marker.status = .Unavailable
+            } else {
+                marker.status = .Available
+            }
+        })
+        let cancelAction = UIAlertAction(title: "CANCEL", style: .default, handler: {(_ action: UIAlertAction?) -> Void in
+            alertController.dismiss(animated: true, completion: nil)
+        })
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: false, completion: nil)
+    }
+    func randomInt(min: Int, max:Int) -> Int {
+        return min + Int(arc4random_uniform(UInt32(max - min + 1)))
     }
 }
 

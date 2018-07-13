@@ -53,7 +53,7 @@ class MarkerManager {
   
   private var markerPositions: [SCNVector3] = []
   private var markerIDs: [String] = []
-  private var markerNodes: [Marker] = []
+  var markerNodes: [Marker] = []
   
   public var markersDrawn: Bool! = false
 
@@ -119,8 +119,8 @@ class MarkerManager {
   func clearMarkers() { //delete all nodes and record of all shapes
     clearView()
     for node in markerNodes {
-      node.geometry!.firstMaterial!.normal.contents = nil
-      node.geometry!.firstMaterial!.diffuse.contents = nil
+      node.geometry?.firstMaterial?.normal.contents = nil
+      node.geometry?.firstMaterial?.diffuse.contents = nil
     }
     markerNodes.removeAll()
     markerPositions.removeAll()

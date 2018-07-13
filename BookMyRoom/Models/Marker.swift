@@ -33,13 +33,6 @@ class Marker: ClickableNode, Codable{
         self.status = .Available
         super.init()
         render()
-        self.clickAction = {
-            if self.status == .Available {
-                self.status = .Unavailable
-            } else {
-                self.status = .Available
-            }
-        }
         self.name = "marker"
     }
     
@@ -53,7 +46,6 @@ class Marker: ClickableNode, Codable{
         fatalError("init(coder:) has not been implemented")
     }
     override func render(){
-        let pyramid = SCNPyramid(width:0.3, height:0.5, length:0.3)
 //        let (minBound, maxBound) = pyramid.boundingBox
         let material = SCNMaterial()
         material.isDoubleSided = true
@@ -61,11 +53,18 @@ class Marker: ClickableNode, Codable{
         material.diffuse.contentsTransform = SCNMatrix4Translate(SCNMatrix4MakeScale(1, -1, 1), 0, 1, 0)
         material.roughness.contents = UIColor.black
         
-        pyramid.materials = [material]
-        self.geometry = pyramid
+//        pyramid.materials = [material]
+        let marker = SCNScene(named: "art.scnassets/marker.dae")
+        self.geometry = (marker?.rootNode.childNode(withName: "Marker", recursively: true))!.geometry
+        self.scale = SCNVector3Make(Float(0.1), Float(0.1), Float(0.1))
 //        self.pivot = SCNMatrix4MakeTranslation((maxBound.x - minBound.x)/2, minBound.y, 0)
+        ARHelperFunctions.rotateAction(node: self)
+        ARHelperFunctions.bounceAction(node: self)
+        self.runAction(ARHelperFunctions.scaleAction)
     }
+
     private enum CodingKeys:String,CodingKey {
         case id
     }
 }
+

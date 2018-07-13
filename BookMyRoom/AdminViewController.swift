@@ -271,7 +271,8 @@ class AdminViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegat
                         LibPlacenote.instance.stopSession()
                         
                         let metadata = LibPlacenote.MapMetadataSettable()
-                        metadata.name = RandomName.Get()
+//                        metadata.name = RandomName.Get()
+                        metadata.name = "120 Bloor"
                         self.statusLabel.text = "Saved Map: " + metadata.name! //update UI
                         
                         if (self.lastLocation != nil) {
