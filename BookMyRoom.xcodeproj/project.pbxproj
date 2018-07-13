@@ -20,6 +20,8 @@
 		3890DA4220F7C973002C1D4C /* ClickableNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA4020F7C973002C1D4C /* ClickableNode.swift */; };
 		3890DA4320F7C973002C1D4C /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA4120F7C973002C1D4C /* Marker.swift */; };
 		3890DA4520F7CEBF002C1D4C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA4420F7CEBF002C1D4C /* Extensions.swift */; };
+		3890DA4720F7F79A002C1D4C /* OfficeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA4620F7F79A002C1D4C /* OfficeSelectViewController.swift */; };
+		3890DA4A20F7F7ED002C1D4C /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890DA4920F7F7ED002C1D4C /* AdminViewController.swift */; };
 		E1CBD31537ED8391F234DB18 /* Pods_BookMyRoom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBFAF4442E57F7FEFD6356D5 /* Pods_BookMyRoom.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +41,8 @@
 		3890DA4020F7C973002C1D4C /* ClickableNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClickableNode.swift; sourceTree = "<group>"; };
 		3890DA4120F7C973002C1D4C /* Marker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		3890DA4420F7CEBF002C1D4C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		3890DA4620F7F79A002C1D4C /* OfficeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeSelectViewController.swift; sourceTree = "<group>"; };
+		3890DA4920F7F7ED002C1D4C /* AdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
 		4D59A91CFBD6F2EE200AA283 /* Pods-BookMyRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookMyRoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-BookMyRoom/Pods-BookMyRoom.release.xcconfig"; sourceTree = "<group>"; };
 		59AEE91F0D28E9D839EF09FC /* Pods-BookMyRoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookMyRoom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BookMyRoom/Pods-BookMyRoom.debug.xcconfig"; sourceTree = "<group>"; };
 		FBFAF4442E57F7FEFD6356D5 /* Pods_BookMyRoom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BookMyRoom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,8 +95,10 @@
 				3890DA3220F7A42A002C1D4C /* SupportingFiles */,
 				3890DA2C20F79FEF002C1D4C /* Info.plist */,
 				3890DA2420F79FEE002C1D4C /* Main.storyboard */,
+				3890DA4920F7F7ED002C1D4C /* AdminViewController.swift */,
 				3890DA3520F7A899002C1D4C /* RandomName.swift */,
 				3890DA2220F79FEE002C1D4C /* ViewController.swift */,
+				3890DA4620F7F79A002C1D4C /* OfficeSelectViewController.swift */,
 			);
 			path = BookMyRoom;
 			sourceTree = "<group>";
@@ -259,8 +265,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3890DA4A20F7F7ED002C1D4C /* AdminViewController.swift in Sources */,
 				3890DA2320F79FEE002C1D4C /* ViewController.swift in Sources */,
 				3890DA3F20F7C691002C1D4C /* ARHelperFunctions.swift in Sources */,
+				3890DA4720F7F79A002C1D4C /* OfficeSelectViewController.swift in Sources */,
 				3890DA3820F7A899002C1D4C /* RandomName.swift in Sources */,
 				3890DA3A20F7A899002C1D4C /* MarkerManager.swift in Sources */,
 				3890DA4520F7CEBF002C1D4C /* Extensions.swift in Sources */,
