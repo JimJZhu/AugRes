@@ -19,7 +19,7 @@ class ARHelperFunctions {
     static let rotate = SCNAction.rotateBy(x: 0, y: CGFloat(2 * Double.pi), z: 0, duration: 3)
     
     static var scaleAction: SCNAction{
-        return SCNAction.scale(to: 0.005, duration: 0.5)
+        return SCNAction.scale(to: 0.01, duration: 0.5)
     }
     
     static func rotateAction(node: SCNNode) {

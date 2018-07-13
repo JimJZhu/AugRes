@@ -30,7 +30,7 @@ class Marker: ClickableNode, Codable{
     //MARK: - Init
     init(id: String){
         self.id = id
-        self.status = .Available
+        self.status = 0.randomInt(max: 1) == 1 ? .Available : .Unavailable
         super.init()
         render()
         self.name = "marker"
@@ -53,7 +53,6 @@ class Marker: ClickableNode, Codable{
         material.diffuse.contentsTransform = SCNMatrix4Translate(SCNMatrix4MakeScale(1, -1, 1), 0, 1, 0)
         material.roughness.contents = UIColor.black
         
-//        pyramid.materials = [material]
         let marker = SCNScene(named: "art.scnassets/marker.dae")
         self.geometry = (marker?.rootNode.childNode(withName: "Marker", recursively: true))!.geometry
         self.scale = SCNVector3Make(Float(0.1), Float(0.1), Float(0.1))
