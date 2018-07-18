@@ -3,7 +3,7 @@
 //
 //  Created by Tamer Sherif on 2018-07-12.
 //  Copyright © 2018 Tamer Sherif. All rights reserved.
-//
+// This is the maps implementation for the application
 
 import UIKit
 import GoogleMaps
