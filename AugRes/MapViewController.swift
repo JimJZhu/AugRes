@@ -1,7 +1,7 @@
 //  ViewController.swift
 //  ARMaps
 //
-//  Created by Tamer Sherif on 2018-07-12.
+//  Created by Tamer Sherif on 2018-07-12 for Internal Hackthon
 //  Copyright © 2018 Tamer Sherif. All rights reserved.
 // This is the maps implementation for the application
 
